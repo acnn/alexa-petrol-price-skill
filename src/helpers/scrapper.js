@@ -3,7 +3,7 @@ var cheerio = require('cheerio');
 var scrapper = (function () {
     return {
         scrapPetrolPrice: function (city, callback) {
-            var searchPhrase = city.toLowerCase() + ' petrol price';
+            var searchPhrase = city + ' petrol price';
             request('https://www.mypetrolprice.com/petrol-price-in-india.aspx', function (error, response, html) {
                 if (error) {
                     callback(null);

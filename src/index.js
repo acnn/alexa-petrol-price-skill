@@ -39,7 +39,7 @@ const handlers = {
             this.emit(':responseReady');
         }
         else {
-            var city = transformInput(citySlot.value);
+            var city = transformInput(citySlot.value).toLowerCase();
             databaseHelper.getPetrolPrice(city, function (data) {
                 console.log(JSON.stringify(data));
                 if (!data) {
