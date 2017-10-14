@@ -1,0 +1,22 @@
+{
+  "name": "fuel-price",
+  "version": "1.0.0",
+  "description": "an alexa skill to get fuel price for Indian cities",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec src/tests/*.js"
+  },
+  "keywords": [
+    "alexa",
+    "fuel",
+    "price"
+  ],
+  "author": "acnn",
+  "license": "ISC",
+  "dependencies": {
+    "alexa-sdk": "^1.0.14",
+    "aws-sdk": "^2.127.0",
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.83.0"
+  }
+}
