@@ -7,14 +7,16 @@ const skillName = 'Petrol Price';
 const resultCountLimit = 2;
 
 var messages = {
-    'welcomeMessage': 'Welcome to ' + skillName + '. You can get the latest petrol prices for major cities in India. ',
+    'welcomeMessage': 'Welcome to ' + skillName + '. You can get the latest petrol price for major cities in India. ',
+    'helpMessage' : skillName + ' skill gives you the latest petrol price for major cities in India. ',
     'promptForCity': 'For which city do you want to know the price? ',
     'rePromptForCity': 'Please say the city name. ',
     'priceMessage': 'It is %s rupees per litre in %s. ',
     'priceUpMessage': 'The price has gone up by %s. ',
     'priceDownMessage': 'The price has gone down by %s. ',
     'cityNotSupportedMessage': 'Sorry. Currently we do not have the petrol price updates for %s. ',
-    'citySlotMissingMessage': 'Sorry. I did not get the city name. '
+    'citySlotMissingMessage': 'Sorry. I did not get the city name. ',
+    'exitMessage' : 'godspeed'
 }
 
 exports.handler = function (event, context, callback) {
@@ -83,6 +85,19 @@ const handlers = {
                 }
             });
         }
+    },
+
+    'AMAZON.HelpIntent': function () {
+        this.response.speak(messages.helpMessage + messages.promptForCity).listen(messages.rePromptForCity);
+        this.emit(':responseReady');
+    },
+    'AMAZON.CancelIntent': function () {
+        this.response.speak(messages.exitMessage);
+        this.emit(':responseReady');
+    },
+    'AMAZON.StopIntent': function () {
+        this.response.speak(messages.exitMessage);
+        this.emit(':responseReady');
     }
 };
 
