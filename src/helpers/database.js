@@ -25,6 +25,7 @@ var dbhelper = (function () {
 			};
 			dynamodb.query(params, function (err, data) {
 				if (err) {
+					console.error('dynamodb query error : ' + JSON.stringify(err));
 					callback(null);
 				}
 				else {
@@ -51,6 +52,9 @@ var dbhelper = (function () {
 				}
 			};
 			dynamodb.put(params, function (err, data) {
+				if(err){
+					console.error('dynamodb put error : ' + JSON.stringify(err));
+				}
 				callback();
 			});
 		}

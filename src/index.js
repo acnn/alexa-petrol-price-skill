@@ -32,8 +32,10 @@ const handlers = {
 
     'PriceIntent': function () {
         var emitter = this;
-        var citySlot = this.event.request.intent.slots.city;
+        var citySlot = this.event.request.intent.slots.city;     
+        console.log('input : ' + JSON.stringify(citySlot));
         if (!citySlot || !citySlot.value) {
+            console.error('city slot missing');
             this.response.speak(messages.citySlotMissingMessage + messages.promptForCity).listen(messages.rePromptForCity);
             this.emit(':responseReady');
         }
@@ -43,6 +45,7 @@ const handlers = {
                 if (!data) {
                     scrapper.scrapPetrolPrice(city, function (scrappedData) {
                         if (!scrappedData) {
+                            console.error('city not supported - empty scrapped data');
                             emitter.response.speak(util.format(messages.cityNotSupportedMessage, citySlot.value));
                             emitter.emit(':responseReady');
                         }

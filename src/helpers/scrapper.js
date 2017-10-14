@@ -7,6 +7,7 @@ var scrapper = (function () {
             var searchPhrase = city + ' petrol price';
             request('https://www.mypetrolprice.com/petrol-price-in-india.aspx', function (error, response, html) {
                 if (error) {
+                    console.error('request main page error : ' + JSON.stringify(error));
                     callback(null);
                 }
                 else {
@@ -24,6 +25,7 @@ var scrapper = (function () {
                     else {
                         request(cityLink, function (error, response, html) {
                             if (error) {
+                                console.error('request city page error : ' + JSON.stringify(error));
                                 callback(null);
                             }
                             else {
