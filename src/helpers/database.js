@@ -10,20 +10,33 @@ var dbhelper = (function () {
 	var dynamodb = new AWS.DynamoDB.DocumentClient();
 	var tableName = 'petrolPrices';
 	return {
-		getPetrolPrice: function (city, callback) {
+		getLatestPetrolPrices: function (city, limit, forceIncludeToday, callback) {
 			var params = {
 				TableName: tableName,
-				Key: {
-					city: city,
-					date: new Date().toISOString().replace('T', ' ').substr(0, 10)
-				}
+				KeyConditionExpression: '#city = :city',
+				ExpressionAttributeNames: {
+					'#city': 'city'
+				},
+				ExpressionAttributeValues: {
+					':city': city
+				},
+				Limit: limit,
+				ScanIndexForward: false
 			};
-			dynamodb.get(params, function (err, data) {
-				if (!data || !data.Item || !data.Item.price) {
+			dynamodb.query(params, function (err, data) {
+				if (err) {
 					callback(null);
 				}
 				else {
-					callback(data.Item);
+					if (!data || data.Count < 1) {
+						callback(null);
+					}
+					else {
+						if (forceIncludeToday && data.Items[0].date != new Date().toISOString().replace('T', ' ').substr(0, 10))
+							callback(null);
+						else
+							callback(data.Items);
+					}
 				}
 			});
 		},
