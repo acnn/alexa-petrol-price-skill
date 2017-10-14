@@ -19,7 +19,6 @@ var dbhelper = (function () {
 				}
 			};
 			dynamodb.get(params, function (err, data) {
-				console.log(data);
 				if (!data || !data.Item || !data.Item.price) {
 					callback(null);
 				}
@@ -39,7 +38,6 @@ var dbhelper = (function () {
 				}
 			};
 			dynamodb.put(params, function (err, data) {
-				console.log('Put : ' + JSON.stringify(data));
 				callback();
 			});
 		}

@@ -28,7 +28,6 @@ var scrapper = (function () {
                             else {
                                 var $ = cheerio.load(html);
                                 var price = $('#CPH1_lblCurrent').text();
-                                console.log('got price : ' + price);
                                 price = price.substring(price.indexOf('=') + 1, price.indexOf('Rs')).trim()
                                 callback({
                                     price: price,

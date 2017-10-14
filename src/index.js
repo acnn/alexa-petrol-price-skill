@@ -41,7 +41,6 @@ const handlers = {
         else {
             var city = transformInput(citySlot.value).toLowerCase();
             databaseHelper.getPetrolPrice(city, function (data) {
-                console.log(JSON.stringify(data));
                 if (!data) {
                     scrapper.scrapPetrolPrice(city, function (scrappedData) {
                         if (!scrappedData) {
