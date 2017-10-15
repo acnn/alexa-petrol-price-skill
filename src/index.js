@@ -42,7 +42,7 @@ const handlers = {
         }
         else {
             console.log('input : ' + citySlot.value);
-            var city = transformState(citySlot.value).transformCity(citySlot.value).toLowerCase();
+            var city = transformCity(transformState(citySlot.value)).toLowerCase();
             console.log('transform : ' + city);
             databaseHelper.getLatestPetrolPrices(city, resultCountLimit, true, function (data) {
                 if (!data) {
