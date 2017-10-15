@@ -34,15 +34,16 @@ const handlers = {
 
     'PriceIntent': function () {
         var emitter = this;
-        var citySlot = this.event.request.intent.slots.city;
-        console.log('input : ' + JSON.stringify(citySlot));
+        var citySlot = this.event.request.intent.slots.city;        
         if (!citySlot || !citySlot.value) {
             console.error('city slot missing');
             this.response.speak(messages.citySlotMissingMessage + messages.promptForCity).listen(messages.rePromptForCity);
             this.emit(':responseReady');
         }
         else {
+            console.log('input : ' + citySlot.value);
             var city = transformState(citySlot.value).transformCity(citySlot.value).toLowerCase();
+            console.log('transform : ' + city);
             databaseHelper.getLatestPetrolPrices(city, resultCountLimit, true, function (data) {
                 if (!data) {
                     scrapper.scrapPetrolPrice(city, function (scrappedData) {
@@ -53,7 +54,7 @@ const handlers = {
                         }
                         else {
                             databaseHelper.insertPetrolPrice(scrappedData, function () {
-                                emitter.response.speak(util.format(messages.priceMessage, scrappedData.price, citySlot.value));
+                                emitter.response.speak(util.format(messages.priceMessage, scrappedData.price, city));
                                 emitter.emit(':responseReady');
                             });
                         }
@@ -66,20 +67,20 @@ const handlers = {
                         var dateDifference = dateDiffInDays(new Date(data[1].date), new Date(data[0].date));
                         var dateDifferenceMsg = dateDifference > 1 ? ' over the last ' + dateDifference + ' days' : ' since yesterday';
                         if (data[0].price > data[1].price) {
-                            response = util.format(messages.priceMessage, data[0].price, citySlot.value) + util.format(messages.priceUpMessage, Number(data[0].price - data[1].price).toFixed(2) + dateDifferenceMsg);
+                            response = util.format(messages.priceMessage, data[0].price, city) + util.format(messages.priceUpMessage, Number(data[0].price - data[1].price).toFixed(2) + dateDifferenceMsg);
                         }
                         else if (data[0].price < data[1].price) {
-                            response = util.format(messages.priceMessage, data[0].price, citySlot.value) + util.format(messages.priceDownMessage, Number(data[1].price - data[0].price).toFixed(2) + dateDifferenceMsg);
+                            response = util.format(messages.priceMessage, data[0].price, city) + util.format(messages.priceDownMessage, Number(data[1].price - data[0].price).toFixed(2) + dateDifferenceMsg);
                         }
                         else {
-                            response = util.format(messages.priceMessage, data[0].price, citySlot.value);
+                            response = util.format(messages.priceMessage, data[0].price, city);
                         }
                         emitter.response.speak(response);
                         emitter.emit(':responseReady');
 
                     }
                     else {
-                        emitter.response.speak(util.format(messages.priceMessage, data[0].price, citySlot.value));
+                        emitter.response.speak(util.format(messages.priceMessage, data[0].price, city));
                         emitter.emit(':responseReady');
                     }
                 }
