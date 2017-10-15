@@ -53,7 +53,7 @@ const handlers = {
                         }
                         else {
                             databaseHelper.insertPetrolPrice(scrappedData, function () {
-                                emitter.response.speak(util.format(messages.priceMessage, scrappedData.price, city));
+                                emitter.response.speak(util.format(messages.priceMessage, scrappedData.price, citySlot.value));
                                 emitter.emit(':responseReady');
                             });
                         }
@@ -66,20 +66,20 @@ const handlers = {
                         var dateDifference = dateDiffInDays(new Date(data[1].date), new Date(data[0].date));
                         var dateDifferenceMsg = dateDifference > 1 ? ' over the last ' + dateDifference + ' days' : ' since yesterday';
                         if (data[0].price > data[1].price) {
-                            response = util.format(messages.priceMessage, data[0].price, city) + util.format(messages.priceUpMessage, Number(data[0].price - data[1].price).toFixed(2) + dateDifferenceMsg);
+                            response = util.format(messages.priceMessage, data[0].price, citySlot.value) + util.format(messages.priceUpMessage, Number(data[0].price - data[1].price).toFixed(2) + dateDifferenceMsg);
                         }
                         else if (data[0].price < data[1].price) {
-                            response = util.format(messages.priceMessage, data[0].price, city) + util.format(messages.priceDownMessage, Number(data[1].price - data[0].price).toFixed(2) + dateDifferenceMsg);
+                            response = util.format(messages.priceMessage, data[0].price, citySlot.value) + util.format(messages.priceDownMessage, Number(data[1].price - data[0].price).toFixed(2) + dateDifferenceMsg);
                         }
                         else {
-                            response = util.format(messages.priceMessage, data[0].price, city);
+                            response = util.format(messages.priceMessage, data[0].price, citySlot.value);
                         }
                         emitter.response.speak(response);
                         emitter.emit(':responseReady');
 
                     }
                     else {
-                        emitter.response.speak(util.format(messages.priceMessage, data[0].price, city));
+                        emitter.response.speak(util.format(messages.priceMessage, data[0].price, citySlot.value));
                         emitter.emit(':responseReady');
                     }
                 }
