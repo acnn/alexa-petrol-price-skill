@@ -34,7 +34,7 @@ const handlers = {
 
     'PriceIntent': function () {
         var emitter = this;
-        var citySlot = this.event.request.intent.slots.city;        
+        var citySlot = this.event.request.intent.slots.city;
         if (!citySlot || !citySlot.value) {
             console.error('city slot missing');
             this.response.speak(messages.citySlotMissingMessage + messages.promptForCity).listen(messages.rePromptForCity);
@@ -97,6 +97,10 @@ const handlers = {
         this.emit(':responseReady');
     },
     'AMAZON.StopIntent': function () {
+        this.response.speak(messages.exitMessage);
+        this.emit(':responseReady');
+    },
+    'SessionEndedRequest': function () {
         this.response.speak(messages.exitMessage);
         this.emit(':responseReady');
     }
