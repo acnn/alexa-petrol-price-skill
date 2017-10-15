@@ -16,7 +16,7 @@ var messages = {
     'priceDownMessage': 'The price has gone down by %s. ',
     'cityNotSupportedMessage': 'Sorry. Currently we do not have the petrol price updates for %s. ',
     'citySlotMissingMessage': 'Sorry. I did not get the city name. ',
-    'exitMessage': 'godspeed'
+    'exitMessage': 'Have a safe journey. '
 }
 
 exports.handler = function (event, context, callback) {
